@@ -1,4 +1,4 @@
-local Target = "adam" 
+local Target = "minikcemre8" 
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
