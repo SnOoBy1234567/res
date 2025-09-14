@@ -1,123 +1,109 @@
--- Services
 local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+local backpack = lp:WaitForChild("Backpack")
+local r_time = Players.RespawnTime or 5
 
--- Variables
-local TargetName = nil
-local Active = false
-
--- GUI
-local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
-screenGui.Name = "CouchKillGUI"
-
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 250, 0, 120)
-frame.Position = UDim2.new(0, 50, 0, 50)
-frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-
--- TextBox: hedef oyuncu adı
-local targetBox = Instance.new("TextBox", frame)
-targetBox.Size = UDim2.new(1, -10, 0, 30)
-targetBox.Position = UDim2.new(0, 5, 0, 5)
-targetBox.PlaceholderText = "Target player"
-targetBox.Text = ""
-targetBox.TextColor3 = Color3.new(1,1,1)
-targetBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
-
-targetBox.FocusLost:Connect(function()
-    TargetName = targetBox.Text
-end)
-
--- Toggle Button: fonksiyonu aç/kapa
-local toggleBtn = Instance.new("TextButton", frame)
-toggleBtn.Size = UDim2.new(1, -10, 0, 30)
-toggleBtn.Position = UDim2.new(0, 5, 0, 45)
-toggleBtn.Text = "Toggle KillWithCouch"
-toggleBtn.TextColor3 = Color3.new(1,1,1)
-toggleBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
-
-toggleBtn.MouseButton1Click:Connect(function()
-    Active = not Active
-    if Active then
-        toggleBtn.BackgroundColor3 = Color3.fromRGB(0,150,0)
-    else
-        toggleBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
-    end
-end)
-
--- KillWithCouch Fonksiyonu (LocalPlayer'ı değil sadece targetPlayer'ın aracını kullanacak)
-local function KillWithCouch()
-    if not TargetName then return end
-    local targetPlayer = Players:FindFirstChild(TargetName)
-    if not targetPlayer then 
-        warn("Erro: Nenhum jogador alvo selecionado")
-        return 
-    end
-    if not targetPlayer.Character or not targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        warn("Erro: Jogador alvo sem personagem ou HumanoidRootPart")
-        return 
-    end
-
-    -- TargetPlayer'ın Backpack veya Character içindeki Couch objesini bul
-    local couch = targetPlayer.Backpack:FindFirstChild("Couch") or targetPlayer.Character:FindFirstChild("Couch")
-    if not couch then
-        warn("Erro: Sofá não encontrado no target")
-        return
-    end
-
-    couch.Name = "Chaos.Couch"
-    local seat1 = couch:FindFirstChild("Seat1")
-    local seat2 = couch:FindFirstChild("Seat2")
-    local handle = couch:FindFirstChild("Handle")
-    if not (seat1 and seat2 and handle) then
-        warn("Erro: Componentes do sofá não encontrados")
-        return
-    end
-
-    seat1.Disabled = true
-    seat2.Disabled = true
-    handle.Name = "Handle "
-
-    -- Kaotik hareket
-    local tet = Instance.new("BodyVelocity", seat1)
-    tet.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-    tet.P = 1250
-    tet.Velocity = Vector3.new(0, 0, 0)
-    tet.Name = "#mOVOOEPF$#@F$#GERE..>V<<<<EW<V<<W"
-
-    repeat
-        for m = 1, 35 do
-            local tRoot = targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-            if not tRoot then break end
-            local pos = tRoot.Position + tRoot.Velocity/2
-            seat1.CFrame = CFrame.new(pos) * CFrame.new(-2,2,0)
-            task.wait()
-        end
-
-        tet:Destroy()
-        task.wait(0.1)
-        tet = Instance.new("BodyVelocity", seat1)
-        tet.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        tet.P = 1250
-        tet.Velocity = Vector3.new(0, 0, 0)
-        tet.Name = "#mOVOOEPF$#@F$#GERE..>V<<<<EW<V<<W"
-    until targetPlayer.Character and targetPlayer.Character:FindFirstChild("Humanoid") and targetPlayer.Character.Humanoid.Sit
-
-    -- Oturunca target objeleri uzaklaştır
-    seat1.CFrame = CFrame.new(9e9,9e9,9e9)
-    seat2.CFrame = CFrame.new(9e9,9e9,9e9)
-    handle.Position = Vector3.new(9e9,9e9,9e9)
-
-    -- BodyVelocity temizle
-    local bv = seat1:FindFirstChild("#mOVOOEPF$#@F$#GERE..>V<<<<EW<V<<W")
-    if bv then bv:Destroy() end
+-- Set maximal simulation radius for localplayer
+local function setsimradius(r)
+    settings().Physics.AllowSleep = false
+    lp.MaximumSimulationRadius = r
+    lp.SimulationRadius = r
 end
 
--- RunService ile toggle kontrolü
-RunService.RenderStepped:Connect(function()
-    if Active then
-        pcall(KillWithCouch)
+-- Enforce collision and physics properties on handle
+local function hardenHandle(handle)
+    RunService.Heartbeat:Connect(function()
+        handle.CanCollide = true
+        handle.Massless = false
+        handle.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0, 0.5)
+    end)
+end
+
+-- The core routine for flinging with a single tool
+local function toolFlinger(tool)
+    local chr = lp.Character or lp.CharacterAdded:Wait()
+    local rhand = chr:FindFirstChild("RightHand") or chr:FindFirstChild("Right Arm")
+    local hum = chr:FindFirstChildOfClass("Humanoid")
+    local hrp = chr:FindFirstChild("HumanoidRootPart")
+    local handle = tool:FindFirstChild("Handle")
+    if not (rhand and hum and hrp and handle) then return end
+
+    -- Equip and unequip to refresh tool
+    tool.Parent = chr
+    task.wait(0.1)
+    tool.Parent = backpack
+
+    -- Character stat reset
+    hum.Sit = false
+    hum.WalkSpeed = 16
+    hum.JumpPower = 50
+    hrp.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0, 0, math.rad(90))
+
+    -- Bind to hand removal (tool equip state change)
+    rhand:GetPropertyChangedSignal("Parent"):Connect(function()
+        if not rhand.Parent then
+            workspace.CurrentCamera.CameraSubject = handle
+            setsimradius(9e9)
+
+            -- BodyPosition for forced movement
+            local bpObj = Instance.new("BodyPosition")
+            bpObj.MaxForce = Vector3.one * 9e12
+            bpObj.P = 1e6
+            bpObj.D = 2000
+            bpObj.Parent = handle
+
+            -- Maintain collision and position
+            handle.CanCollide = true
+            handle.CanQuery = true
+            tool.Parent = chr
+            hardenHandle(handle)
+
+            -- Wait until handle is synced above
+            bpObj.Position = handle.Position + Vector3.new(0, 20, 0)
+            repeat
+                task.wait()
+                setsimradius(9e9)
+            until (handle.Position - bpObj.Position).Magnitude < 5
+
+            -- FLING EVERYONE (except self)
+            for _, v in ipairs(Players:GetPlayers()) do
+                if v ~= lp and v.Character then
+                    local vhum = v.Character:FindFirstChildOfClass("Humanoid")
+                    local vroot = v.Character:FindFirstChild("HumanoidRootPart")
+                    if vhum and vroot and not vhum.Sit and vroot.Velocity.Magnitude < 600 then
+                        for _ = 1, math.ceil(r_time + 3) do
+                            task.wait()
+                            handle.RotVelocity = Vector3.new(9e9, 9e9, -9e9)
+                            handle.Position = vroot.Position + (vhum.MoveDirection * 3.8)
+                            bpObj.Position = handle.Position
+                            handle.CanCollide = true
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    -- If tool is removed from game, auto-recover
+    tool.AncestryChanged:Connect(function()
+        if not tool:IsDescendantOf(game) then
+            task.wait(0.1)
+            tool.Parent = backpack
+        end
+    end)
+end
+
+-- Kickstart all tools in backpack (at script start)
+for _, tool in ipairs(backpack:GetChildren()) do
+    if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
+        coroutine.wrap(toolFlinger)(tool)
+    end
+end
+
+-- Auto-run on new tools added to backpack
+backpack.ChildAdded:Connect(function(tool)
+    if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
+        coroutine.wrap(toolFlinger)(tool)
     end
 end)
