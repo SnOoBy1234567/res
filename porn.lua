@@ -1,163 +1,91 @@
--- Credits by Pio "Discord User id: 311397526399877122"
--- Edited by Agent666_0 (with ai helper)
-
--- Services
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Backpack = LocalPlayer:WaitForChild("Backpack")
-
--- Vars
-local TargetName = nil
-local Active = false
-local Tool, Handle, BP, BV
-local flingRunning = false
-
--- GUI
-local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
-screenGui.Name = "SitKillGUI"
-
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 250, 0, 120)
-frame.Position = UDim2.new(0, 50, 0, 50)
-frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-
--- Target input
-local targetBox = Instance.new("TextBox", frame)
-targetBox.Size = UDim2.new(1, -10, 0, 30)
-targetBox.Position = UDim2.new(0, 5, 0, 5)
-targetBox.PlaceholderText = "Target player"
-targetBox.Text = ""
-targetBox.TextColor3 = Color3.new(1,1,1)
-targetBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
-
-targetBox.FocusLost:Connect(function()
-    TargetName = targetBox.Text
-end)
-
--- Toggle
-local toggleBtn = Instance.new("TextButton", frame)
-toggleBtn.Size = UDim2.new(1, -10, 0, 30)
-toggleBtn.Position = UDim2.new(0, 5, 0, 45)
-toggleBtn.Text = "Toggle KillWithTool"
-toggleBtn.TextColor3 = Color3.new(1,1,1)
-toggleBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
-
-toggleBtn.MouseButton1Click:Connect(function()
-    Active = not Active
-    toggleBtn.BackgroundColor3 = Active and Color3.fromRGB(0,150,0) or Color3.fromRGB(150,0,0)
-
-    if Active then
-        Tool = Backpack:FindFirstChildOfClass("Tool")
-        if Tool then
-            Handle = Tool:FindFirstChild("Handle")
-            if Handle then
-                -- BodyPosition (takip için)
-                BP = Instance.new("BodyPosition")
-                BP.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-                BP.P = 50000
-                BP.D = 2000
-                BP.Parent = Handle
-
-                -- BodyVelocity (yukarı-aşağı titreme için)
-                BV = Instance.new("BodyVelocity")
-                BV.MaxForce = Vector3.new(0, math.huge, 0)
-                BV.P = 3000
-                BV.Parent = Handle
-            end
-        end
-    else
-        if BP then BP:Destroy() BP = nil end
-        if BV then BV:Destroy() BV = nil end
-        if Tool and Tool.Parent ~= Backpack then
-            Tool.Parent = Backpack
-        end
-    end
-end)
-
--- Fling Code (Pio/Agent666_0)
-local function runFling()
-    if flingRunning then return end
-    flingRunning = true
-
-    local r_time = Players.RespawnTime
-    local lp = LocalPlayer
-    local bp = lp.Backpack
-    local chr = lp.Character or lp.CharacterAdded:Wait()
-    local rhand = chr:FindFirstChild("RightHand") or chr:WaitForChild("Right Arm")
-    local tool = bp:FindFirstChildOfClass("Tool")
-    if not tool then return end
-    local t_handle = tool:FindFirstChild("Handle")
-    if not t_handle then return end
-
-    tool.Parent = chr
-    tool.Parent = bp
-
-    chr.Humanoid.Sit = false
-    chr:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0,0,math.rad(90))
-
-    local function setsimradius(radius)
-        lp.MaximumSimulationRadius = radius
-        lp.SimulationRadius = radius
+-- Função KillWithCouch (versão otimizada 100/100)
+local function KillWithCouch()
+    local targetPlayer = Players:FindFirstChild(getgenv().Target)
+    if not targetPlayer then
+        warn("[KillWithCouch] Nenhum jogador alvo selecionado.")
+        return
     end
 
-    rhand:GetPropertyChangedSignal("Parent"):Connect(function()
-        if not rhand.Parent then
-            workspace.Camera.CameraSubject = t_handle
-            setsimradius(9e6)
+    local tChar = targetPlayer.Character
+    local tRoot = tChar and tChar:FindFirstChild("HumanoidRootPart")
+    if not (tChar and tRoot) then
+        warn("[KillWithCouch] Alvo sem Character ou HumanoidRootPart.")
+        return
+    end
 
-            local bp = Instance.new("BodyPosition")
-            bp.Position = t_handle.Position + Vector3.new(0,20,0)
-            bp.MaxForce = Vector3.one * 9e10
-            bp.P = 9e9
-            bp.Parent = t_handle
+    -- Clear tools + pegar sofá
+    ReplicatedStorage.RE["1Clea1rTool1s"]:FireServer("ClearAllTools")
+    ReplicatedStorage.RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools", "Couch")
 
-            t_handle.CanCollide = false
-            t_handle.CanQuery = false
-            tool.Parent = chr
+    local couch = LocalPlayer.Backpack:WaitForChild("Couch", 2)
+    if not couch then
+        warn("[KillWithCouch] Sofá não encontrado no Backpack.")
+        return
+    end
 
-            repeat task.wait() until (t_handle.Position - bp.Position).Magnitude < 5
+    couch.Name = "Chaos.Couch"
+    local seat1, seat2, handle = couch:FindFirstChild("Seat1"), couch:FindFirstChild("Seat2"), couch:FindFirstChild("Handle")
+    if not (seat1 and seat2 and handle) then
+        warn("[KillWithCouch] Componentes do sofá não encontrados.")
+        return
+    end
 
-            for _, v in ipairs(Players:GetPlayers()) do
-                if v ~= lp and v.Character then
-                    local vhum = v.Character:FindFirstChildOfClass("Humanoid")
-                    local vroot = v.Character:FindFirstChild("HumanoidRootPart")
-                    if vhum and vroot and not vhum.Sit and vroot.Velocity.Magnitude < 600 then
-                        for i = 1, r_time + 3 do
-                            task.wait()
-                            t_handle.RotVelocity = Vector3.new(8000,8000,-8000)
-                            t_handle.Position = vroot.Position + (vhum.MoveDirection * 3.8)
-                            bp.Position = t_handle.Position
-                        end
-                    end
-                end
-            end
+    seat1.Disabled, seat2.Disabled = true, true
+    handle.Name = "Handle "
+    couch.Parent = LocalPlayer.Character
+
+    -- Função auxiliar para spawnar BodyVelocity
+    local function addVelocity()
+        local bv = Instance.new("BodyVelocity")
+        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bv.P = 1250
+        bv.Velocity = Vector3.zero
+        bv.Name = "CouchBV"
+        bv.Parent = seat1
+        return bv
+    end
+
+    local bv = addVelocity()
+
+    repeat
+        -- seguir o alvo com offset
+        for i = 1, 35 do
+            if not (tChar and tChar:FindFirstChild("HumanoidRootPart")) then break end
+            local root = tChar.HumanoidRootPart
+            local pos = root.Position + root.Velocity / 2
+            seat1.CFrame = CFrame.new(pos) * CFrame.new(-2, 2, 0)
+            task.wait()
         end
-    end)
+
+        -- reiniciar BodyVelocity e tool parenting
+        if bv then bv:Destroy() end
+        couch.Parent = LocalPlayer.Backpack
+        task.wait()
+        handle.Name = "Handle"
+        task.wait(0.2)
+        couch.Parent = LocalPlayer.Character
+        task.wait()
+        couch.Parent = LocalPlayer.Backpack
+        couch.Handle.Name = "Handle "
+        task.wait(0.2)
+        couch.Parent = LocalPlayer.Character
+
+        bv = addVelocity()
+    until tChar and tChar:FindFirstChildOfClass("Humanoid") and tChar.Humanoid.Sit == true
+
+    -- Quando alvo senta → finalizar
+    task.wait()
+    couch.Parent = LocalPlayer.Backpack
+    seat1.CFrame = CFrame.new(9999, -450, 9999)
+    seat2.CFrame = CFrame.new(9999, -450, 9999)
+    couch.Parent = LocalPlayer.Character
+    task.wait(0.1)
+    couch.Parent = LocalPlayer.Backpack
+    task.wait(2)
+
+    local leftoverBV = seat1:FindFirstChild("CouchBV")
+    if leftoverBV then leftoverBV:Destroy() end
+    ReplicatedStorage.RE["1Clea1rTool1s"]:FireServer("ClearAllTools")
+
+    print("[KillWithCouch] Finalizado com sucesso em " .. targetPlayer.Name)
 end
-
--- Main loop
-RunService.Heartbeat:Connect(function()
-    if Active and Tool and Handle and BP and BV then
-        local target = TargetName and Players:FindFirstChild(TargetName)
-        if not target then return end
-        local hum = target.Character and target.Character:FindFirstChildOfClass("Humanoid")
-        local hrp = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-        if not hum or not hrp then return end
-
-        if hum.Sit then
-            -- Sit olduysa: temizle + backpack + fling
-            if BP then BP:Destroy() BP = nil end
-            if BV then BV:Destroy() BV = nil end
-            if Tool and Tool.Parent ~= Backpack then
-                Tool.Parent = Backpack
-            end
-            runFling()
-        else
-            -- Takip + titreme
-            BP.Position = hrp.Position + Vector3.new(0,2,0)
-            BV.Velocity = Vector3.new(0, math.sin(tick()*40)*150, 0) -- çok hızlı up/down
-            Tool.Parent = workspace
-        end
-    end
-end)
