@@ -1,3 +1,21 @@
+local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
+workspace.FallenPartsDestroyHeight = -math.huge
+
+local Window = Libary:MakeWindow({
+    Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
+    SubTitle = "            by: Snooby and Wx",
+    LoadText = "Carregando SEGA Hub",
+    Flags = "SEGA_hub_Broookhaven"
+})
+Window:AddMinimizeButton({
+    Button = { Image = "rbxassetid://0", BackgroundTransparency = 0 },
+    Corner = { CornerRadius = UDim.new(35, 1) },
+})
+
+
+
+
+
 
 local lp = game.Players.LocalPlayer
 local chr = lp.Character or lp.CharacterAdded:Wait()
@@ -140,21 +158,8 @@ end)
 
 
 
-local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
-workspace.FallenPartsDestroyHeight = -math.huge
-
-local Window = Libary:MakeWindow({
-    Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
-    SubTitle = "            by: Snooby and Wx",
-    LoadText = "Carregando SEGA Hub",
-    Flags = "SEGA_hub_Broookhaven"
-})
-Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://0", BackgroundTransparency = 0 },
-    Corner = { CornerRadius = UDim.new(35, 1) },
-})
-
 local InfoTab = Window:MakeTab({ Title = "Info", Icon = "rbxassetid://15309138473" })
+
 
 InfoTab:AddSection({ "Script Info!" })
 InfoTab:AddParagraph({ "Owner/Developer: Wx and Snooby" })
