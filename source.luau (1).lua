@@ -37,8 +37,8 @@ InfoTab:AddButton({
 
 local AnimeTab = Window:MakeTab({ Title = "Anime Scripts", Icon = "star" })
 AnimeTab:AddButton({
-    Name = "Domain Expansion (Super op)",
-    Description = "very op",
+    Name = "Domain Expansion op",
+    Description = "gerçekten",
     Callback = function()
 -- Serviços
 local TextChatService = game:GetService("TextChatService")
@@ -50,7 +50,7 @@ local Player = Players.LocalPlayer
 -- Aviso no chat (com \r conforme seu pedido)
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then 
     TextChatService.TextChannels.RBXGeneral:SendAsync(
-        "hi\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r[Yowai-mo!] Domain Expansion..."
+        "hi\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rmadeBySnOoBy domain expansion"
     )
 else 
     print("gojo chorou no banho F")
@@ -179,7 +179,7 @@ local function fireAtPart(targetPart)
     local args = {
         targetPart,
         targetPart,
-        Vector3.new(1e14, 1e14, 1e14),
+        Vector3.new(1e15, 1e15, 1e15),
         targetPart.Position,
         gunScript:FindFirstChild("MuzzleEffect"),
         gunScript:FindFirstChild("HitEffect"),
@@ -231,7 +231,7 @@ end
 })
 AnimeTab:AddButton({
     Name = "Sharingan Kill (Super op)",
-    Description = "very op",
+    Description = "op olm ne bekliyon",
     Callback = function()
 -- Serviços
 local TextChatService = game:GetService("TextChatService")
@@ -246,7 +246,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         "hi\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r[📈] Sharingan Kill"
     )
 else 
-    print("naruto chorou no banho F")
+    print("narutoooo")
 end
 
 -- Função para ativar Expansão de Domínio
@@ -372,7 +372,7 @@ local function fireAtPart(targetPart)
     local args = {
         targetPart,
         targetPart,
-        Vector3.new(1e14, 1e14, 1e14),
+        Vector3.new(1e15, 1e16, 1e16),
         targetPart.Position,
         gunScript:FindFirstChild("MuzzleEffect"),
         gunScript:FindFirstChild("HitEffect"),
@@ -422,13 +422,13 @@ task.spawn(function()
 end)
 end
 })
-local TrollTab = Window:MakeTab({ Title = "Top Scripts Updated 2025", Icon = "home" })
+local TrollTab = Window:MakeTab({ Title = "güncellenmiş scriptler", Icon = "home" })
 
 TrollTab:AddSection({ "Invisible" })
 
 TrollTab:AddButton({
-    Name = "Turn invisible 100% Updatedd",
-    Description = "turn invis",
+    Name = "invisible",
+    Description = "gorunmez ol",
 Callback = function()
         
         local args = {
@@ -497,15 +497,15 @@ local function toggleRGBCharacter(enabled)
 end
 
 TrollTab:AddToggle({
-    Name = "RGB Character",
-    Description = "Turn u rgb brookhaven",
+    Name = "rgb karakterin olacak",
+    Description = "rgb karakter",
     Default = false,
     Callback = function(value)
         toggleRGBCharacter(value)
     end
 })
 
-TrollTab:AddSection({ "Hair RGB" })
+TrollTab:AddSection({ "saç rgb" })
 local hairColors = {
     Color3.new(1, 1, 0), Color3.new(0, 0, 1), Color3.new(1, 0, 1), Color3.new(1, 1, 1),
     Color3.new(0, 1, 0), Color3.new(0.5, 0, 1), Color3.new(1, 0.647, 0), Color3.new(0, 1, 1)
@@ -524,8 +524,8 @@ local function changeHairColor()
 end
 
 TrollTab:AddToggle({
-    Name = "Turn Ur hair RGB",
-    Description = "Deixa Seu Cabelo RGB",
+    Name = "saçını rgb yap",
+    Description = "RGB saç",
     Default = false,
     Callback = function(value)
         isActive = value
@@ -536,10 +536,10 @@ TrollTab:AddToggle({
 })
 
 -- Tab 4: Anti Sit
-TrollTab:AddSection({ "no sit" })
+TrollTab:AddSection({ "anti sit" })
 TrollTab:AddToggle({
     Name = "Anti Sit",
-    Description = "Antsit script upd",
+    Description = "Antsit script işte",
     Default = false,
     Callback = function(Value)
         local player = game.Players.LocalPlayer
@@ -600,7 +600,7 @@ TrollTab:AddToggle({
 
 })
 
-local Tab2 = Window:MakeTab({"LocalScripts Updated", "home"})
+local Tab2 = Window:MakeTab({"LocalScriptler", "home"})
 
 local Section = Tab2:AddSection({"Player Character"})
 
@@ -684,8 +684,8 @@ local function notifyPlayerSelected(player)
     local content, _ = Players:GetUserThumbnailAsync(player.UserId, thumbType, thumbSize)
 
     StarterGui:SetCore("SendNotification", {
-        Title = "Player Selecionado",
-        Text = player.Name .. " foi selecionado!",
+        Title = "oyuncu seçildi",
+        Text = player.Name .. " BySnOoBy",
         Icon = content,
         Duration = 5
     })
@@ -693,9 +693,9 @@ end
 
 -- TextBox para digitar nome do player
 Tab2:AddTextBox({
-    Name = "Name of the player Target",
-    Description = "can be a name part",
-    PlaceholderText = "wx > wxyan (example)",
+    Name = "oyuncu gir",
+    Description = "partda olabilir",
+    PlaceholderText = "wx > wxyan (örnek)",
     Callback = function(Value)
         local foundPlayer = findPlayerByPartialName(Value)
         if foundPlayer then
@@ -763,7 +763,7 @@ Tab2:AddSlider({
     end
  })
 
-local Troll = Window:MakeTab({ Title = "Admin Updated Troll", Icon = "home" })
+local Troll = Window:MakeTab({ Title = "Admin Troll", Icon = "home" })
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -1211,7 +1211,7 @@ end
                     end
                 end
                 killDropdown:Set(newPlayers)
-                print("Lista de jogadores atualizada: ", table.concat(newPlayers, ", "))
+                print("liste: ", table.concat(newPlayers, ", "))
                 if selectedPlayerName and not Players:FindFirstChild(selectedPlayerName) then
                     selectedPlayerName = nil
                     getgenv().Target = nil
@@ -1225,7 +1225,7 @@ end
     })
 
     Troll:AddButton({
-        Name = "Teleport to Player",
+        Name = "Tp ol",
         Callback = function()
             if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
                 print("Erro: Player não selecionado ou não existe")
@@ -1248,7 +1248,7 @@ end
     })
 
     Troll:AddToggle({
-        Name = "Spectating Player",
+        Name = "izle",
         Default = false,
         Callback = function(value)
             local Camera = workspace.CurrentCamera
@@ -1289,17 +1289,17 @@ end
     local MethodSection = Troll:AddSection({ Name = "Métodos" })
 
     Troll:AddDropdown({
-        Name = "Select kill + bring method",
-        Options = {"Bus", "Couch", "Couch version 2"},
+        Name = "kill veya bring metodunu seç",
+        Options = {"Bus","hiçbişi yapmadan doğrudan"},
         Default = "",
         Callback = function(value)
             methodKill = value
-            print("Método selecionado: " .. tostring(value))
+            print("secilen metot: " .. tostring(value))
         end
     })
 
     Troll:AddButton({
-        Name = "Matar Player",
+        Name = "oldur oyuncuyu",
         Callback = function()
             if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
                 print("Erro: Player não selecionado ou não existe")
@@ -1307,7 +1307,7 @@ end
             end
             if methodKill == "Couch" then
                 KillPlayerCouch()
-            elseif methodKill == "Couch version 2" then
+            elseif methodKill == "hiçbişi yapmadan doğrudan" then
                 KillWithCouch()
             else
                 -- Método de ônibus
@@ -1403,7 +1403,7 @@ end
     })
 
     Troll:AddButton({
-        Name = "Do bring Player",
+        Name = "oyuncuyu yanımıza getir",
         Callback = function()
            if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
                 print("Erro: Player não selecionado ou não existe")
@@ -1411,7 +1411,7 @@ end
             end
             if methodKill == "Couch" then
                 BringPlayerLLL()
-            elseif methodKill == "Couch version 2" then
+            elseif methodKill == "hiçbişi yapmadan doğrudan" then
                 BringWithCouch()
             else
                 -- Método de ônibus
@@ -1798,7 +1798,7 @@ local function FlingBall(target)
             bv.Name = "FlingPower"
             bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
             bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-            bv.P = 9e900
+            bv.P = 9e9000
             bv.Parent = Ball
 
             workspace.CurrentCamera.CameraSubject = thum
@@ -1830,7 +1830,7 @@ end
 end
 
 Troll:AddButton({
-    Name = "Fling Ball",
+    Name = "topla uçur",
     Callback = function()
         FlingBall(game:GetService("Players")[selectedPlayerName])
     end
@@ -2035,10 +2035,10 @@ local function ActiveAutoFling(targetPlayer)
     end
 end
 
-local kill = Troll:AddSection({Name = "Fling Boat"})
+local kill = Troll:AddSection({Name = "tekne ile uçur"})
 
 Troll:AddButton({
-    Name = "Fling - Boat",
+    Name = "tekne - ucur",
     Callback = function()
         if not selectedPlayerName or not game.Players:FindFirstChild(selectedPlayerName) then
             warn("Nenhum jogador selecionado ou não existe")
@@ -2143,7 +2143,7 @@ Troll:AddButton({
 print("Fling - Boat button created")
 
 Troll:AddButton({
-    Name = "Desligar Fling - Boat",
+    Name = "fling boatı kapat",
     Callback = function()
         local Player = game.Players.LocalPlayer
         local Character = Player.Character
@@ -2348,7 +2348,7 @@ end)
 })
 
 Troll:AddButton({
-    Name = "Click Fling Couch (Tool)",
+    Name = "tıklayarak koltuk flingi(Tool)",
     Callback = function()
 local jogadores = game:GetService("Players")
 local rep = game:GetService("ReplicatedStorage")
@@ -2358,7 +2358,7 @@ local cam = workspace.CurrentCamera
 
 local podeClicar = true
 local ferramentaEquipada = false
-local NOME_FERRAMENTA = "Click Fling Couch"
+local NOME_FERRAMENTA = "SnOoBy12345678"
 
 local mochila = eu:WaitForChild("Backpack")
 
@@ -2482,9 +2482,9 @@ end)
 end
 })
 
-local Tab = Window:MakeTab({"Avatar copy", "rbxassetid://10734952036"})
+local Tab = Window:MakeTab({"avatar kopyal", "rbxassetid://10734952036"})
 
-Tab:AddSection({ Name = "Copiar Skin" })
+Tab:AddSection({ Name = "avatar kopyala" })
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2503,7 +2503,7 @@ end
 
 -- Dropdown de seleÃ§Ã£o de jogador
 local Dropdown = Tab:AddDropdown({
-    Name = "Select user",
+    Name = "kullanıcı seç",
     Options = GetPlayerNames(),
     Default = Target,
     Callback = function(Value)
@@ -2520,7 +2520,7 @@ Players.PlayerAdded:Connect(UpdateDropdown)
 Players.PlayerRemoving:Connect(UpdateDropdown)
 
 Tab:AddButton({
-    Name = "Copy user brook Avatar",
+    Name = "avatarı kopyala",
     Callback = function()
         if not Target then return end
 
@@ -2744,7 +2744,7 @@ pcall(DropdownHouseUpdate)
 -- Botão para atualizar lista de casas
 pcall(function()
     HouseTab:AddButton({
-        Name = " Updater List houses",
+        Name = " güncelle evleri",
         Callback = function()
             print("Atualizar Lista de Casas button clicked.")
             pcall(DropdownHouseUpdate)
@@ -2755,7 +2755,7 @@ end)
 -- Botão para teleportar para casa
 pcall(function()
     HouseTab:AddButton({
-        Name = "Teleport to house",
+        Name = "eve tp ol",
         Callback = function()
             local House = workspace["001_Lots"]:FindFirstChild(tostring(SelectHouse))
             if House and game.Players.LocalPlayer.Character then
@@ -2770,7 +2770,7 @@ end)
 -- Botão para teleportar para cofre
 pcall(function()
     HouseTab:AddButton({
-        Name = "Teleportar to house safe",
+        Name = "güvenli eve tp ol",
         Callback = function()
             local House = workspace["001_Lots"]:FindFirstChild(tostring(SelectHouse))
             if House and House:FindFirstChild("HousePickedByPlayer") and game.Players.LocalPlayer.Character then
@@ -2790,7 +2790,7 @@ end)
 -- Toggle para atravessar porta
 pcall(function()
     NoclipDoor = HouseTab:AddToggle({
-        Name = "House door noclip",
+        Name = "evin kapısını kır",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -2815,7 +2815,7 @@ end)
 -- Toggle para tocar campainha
 pcall(function()
     HouseTab:AddToggle({
-        Name = "door bell press",
+        Name = "kapı spawn et",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -2841,7 +2841,7 @@ end)
 -- Toggle para bater na porta
 pcall(function()
     HouseTab:AddToggle({
-        Name = "knock door house",
+        Name = "kapı tıklat",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -2915,7 +2915,7 @@ end)
 -- Dropdown para teletransporte
 pcall(function()
     HouseTab:AddDropdown({
-        Name = "Select house",
+        Name = "ev seç",
         Options = casasNomes,
         Callback = function(casaSelecionada)
             local player = game.Players.LocalPlayer
@@ -2928,18 +2928,18 @@ end)
 
 -- Label após dropdown
 pcall(function()
-    HouseTab:AddLabel("Teleporte para a Casa que Quiser")
+    HouseTab:AddLabel("teleport ol")
 end)
 
 -- Seção para Auto Unban
 pcall(function()
-    HouseTab:AddSection({ Name = "Auto Unban" })
+    HouseTab:AddSection({ Name = "otomatik ban kaldır" })
 end)
 
 -- Toggle para Auto Unban
 pcall(function()
     HouseTab:AddToggle({
-        Name = "Auto Unban",
+        Name = "otomatik ban kaldır",
         Default = false,
         Callback = function(state)
             isUnbanActive = state
@@ -2976,7 +2976,7 @@ end)
 
 -- Label após Casa RGB
 pcall(function()
-    HouseTab:AddLabel("Deixa a sua casa RGB")
+    HouseTab:AddLabel("kasayı rgb yap")
 end)
 
 -- Função para Auto Unban
@@ -2993,10 +2993,10 @@ function startAutoUnban()
     end
 end
 
-local Tab = Window:MakeTab({"Audio All", "music"})
+local Tab = Window:MakeTab({"herkese muzik", "music"})
 
 -- Create a section
-Tab:AddSection({"Audio ALL Players"})
+Tab:AddSection({"tum oyunculara müzik"})
 
 -- Lista de áudios
 local audios = {
@@ -3014,9 +3014,9 @@ local selectedAudioID
 
 -- Adicionar uma textbox para inserir o ID do áudio
 Tab:AddTextBox({
-    Name = "audio id ( optional )",
+    Name = "muzik idsi (opsiyonel)",
     Description = "id",
-    PlaceholderText = "123456789 id audio here!",
+    PlaceholderText = "buraya id yaz",
     Callback = function(value)
         selectedAudioID = tonumber(value)
     end
@@ -3029,8 +3029,8 @@ for _, audio in ipairs(audios) do
 end
 
 Tab:AddDropdown({
-    Name = "Select audio",
-    Description = "Escolha um áudio da lista",
+    Name = "muzik seç",
+    Description = "listeden müzik seç",
     Options = audioNames,
     Default = audioNames[1],
     Flag = "selected_audio",
@@ -3048,7 +3048,7 @@ Tab:AddDropdown({
 local audioLoop = false
 
 -- Nova seção para loop de áudio
-Tab:AddSection({"Loop de Audio"})
+Tab:AddSection({"sürekli tekrarla"})
 
 -- Função para tocar o áudio repetidamente
 local function playLoopedAudio()
@@ -3076,8 +3076,8 @@ end
 
 -- Toggle para loop de áudio
 Tab:AddToggle({
-    Name = "Loop play Áudio",
-    Description = "Ativa o loop do áudio",
+    Name = "sürekli muziği oynat",
+    Description = "muzik",
     Default = false,
     Flag = "audio_loop",
     Callback = function(value)
@@ -3089,7 +3089,7 @@ Tab:AddToggle({
 })
 
 -- Adicionar um parágrafo como label
-Tab:AddParagraph({"Info", "Loop de tocar Áudio (Todos players do Server ouvem)"})
+Tab:AddParagraph({"Info", "süreklii muziğgi oynat"})
 
 -- Função para tocar o áudio normal
 local function playAudio()
@@ -3112,10 +3112,10 @@ local function playAudio()
 end
 
 -- Nova seção para tocar áudio
-Tab:AddSection({"Tocar Áudio"})
+Tab:AddSection({"ses çal"})
 
 -- Botão para tocar o áudio
-Tab:AddButton({"Tocar Áudio", function()
+Tab:AddButton({"ses çal", function()
     playAudio()
 end})
 
@@ -3218,8 +3218,8 @@ Tab:AddButton({
         repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = oldcf
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Script de Dupe",
-            Text = "Shutdown Concluído, Agora Vai Desligar",
+            Title = "Dupe script",
+            Text = "Shutdown server ama kesin değil eklemedim kesin olanını",
             Button1 = "Ok",
             Duration = 5
         })
@@ -3231,8 +3231,8 @@ Tab:AddButton({
         end
         wait(0.2)
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Script de Dupe",
-            Text = "Iniciando duplicação, seja paciente",
+            Title = "bekle skid",
+            Text = "dupe oluyo",
             Button1 = "Ok",
             Duration = 5
         })
@@ -3243,7 +3243,7 @@ Tab:AddButton({
 
 -- Lag Laptop Section
 local Section = Tab:AddSection({
-    Name = "Lag com Laptop"
+    Name = "laptop ile lag"
 })
 
 
@@ -3285,12 +3285,12 @@ local function fireServer(eventName, args)
     end
 end
 
-local Section = Tab6:AddSection({"RGB para usar em você"})
+local Section = Tab6:AddSection({"RGB isim ve bio"})
 
 -- Nome + Bio RGB  juntos
 local nameBioRGBActive = false
 Tab6:AddToggle({
-    Name = "Name + Bio user RGB ",
+    Name = "rgb isim ve bio ",
     Default = false,
     Callback = function(state)
         nameBioRGBActive = state
@@ -3309,7 +3309,7 @@ Tab6:AddToggle({
 
 
 local Tab5 = Window:MakeTab({"Car", "car"})
-local Section = Tab5:AddSection({"all car functions"})
+local Section = Tab5:AddSection({"tum araba fonksiyonları"})
 
 
 local Players = game:GetService("Players")
@@ -3328,8 +3328,8 @@ TeleportCarro.Camera = Camera
 function TeleportCarro:MostrarNotificacao(mensagem)
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Aviso",
-            Text = mensagem,
+            Title = "uyarı",
+            Text = mesaj,
             Duration = 5
         })
     end)
@@ -3355,13 +3355,13 @@ end
 -- Função para teleportar o jogador para o assento do carro
 function TeleportCarro:TeleportToSeat(seat, car)
     if not self.LocalPlayer.Character or not self.LocalPlayer.Character:FindFirstChild("Humanoid") then
-        self:MostrarNotificacao("Personagem não encontrado!")
+        self:MostrarNotificacao("")
         return false
     end
     local humanoid = self.LocalPlayer.Character.Humanoid
     local rootPart = self.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     if not rootPart then
-        self:MostrarNotificacao("Parte raiz do personagem não encontrada!")
+        self:MostrarNotificacao("")
         return false
     end
 
@@ -3379,7 +3379,7 @@ end
 -- Função para teleportar o carro para o void com delay
 function TeleportCarro:TeleportToVoid(car)
     if not car then
-        self:MostrarNotificacao("Veículo inválido!")
+        self:MostrarNotificacao("")
         return
     end
     if not car.PrimaryPart then
@@ -3387,7 +3387,7 @@ function TeleportCarro:TeleportToVoid(car)
         if body and body:IsA("BasePart") then
             car.PrimaryPart = body
         else
-            self:MostrarNotificacao("Parte principal do veículo não encontrada!")
+            self:MostrarNotificacao("")
             return
         end
     end
@@ -3399,7 +3399,7 @@ end
 -- Função para teleportar o carro para a posição do jogador com delay
 function TeleportCarro:TeleportToPlayer(car, playerPos)
     if not car then
-        self:MostrarNotificacao("Veículo inválido!")
+        self:MostrarNotificacao("")
         return
     end
     if not car.PrimaryPart then
@@ -3407,7 +3407,7 @@ function TeleportCarro:TeleportToPlayer(car, playerPos)
         if body and body:IsA("BasePart") then
             car.PrimaryPart = body
         else
-            self:MostrarNotificacao("Parte principal do veículo não encontrada!")
+            self:MostrarNotificacao("")
             return
         end
     end
@@ -3447,14 +3447,14 @@ end
 
 -- Parágrafo
 Tab5:AddParagraph({
-    Title = "use o void protection",
+    Title = "anti void kullan",
     Content = ""
 })
 
 -- Toggle para matar todos os carros
 Tab5:AddToggle({
-    Name = "DELETE EVERY SERVER CARS!!!!!",
-    Description = "RISKY",
+    Name = "serverdaki tum arabaları sil",
+    Description = "RISKli",
     Default = false,
     Callback = function(state)
         local originalPosition
@@ -3465,7 +3465,7 @@ Tab5:AddToggle({
             if self.LocalPlayer.Character and self.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
                 originalPosition = self.LocalPlayer.Character.HumanoidRootPart.Position
             else
-                TeleportCarro:MostrarNotificacao("Personagem não encontrado!")
+                TeleportCarro:MostrarNotificacao("")
                 return
             end
 
@@ -3474,7 +3474,7 @@ Tab5:AddToggle({
             spawn(function()
                 local vehiclesFolder = TeleportCarro.Workspace:FindFirstChild("Vehicles")
                 if not vehiclesFolder then
-                    TeleportCarro:MostrarNotificacao("Pasta de veículos não encontrada!")
+                    TeleportCarro:MostrarNotificacao("")
                     return
                 end
 
@@ -3515,8 +3515,8 @@ local Section = Tab5:AddSection({"functions CAR"})
 
 -- Criar o dropdown
 local Dropdown = Tab5:AddDropdown({
-    Name = "SelecT Car PLAYEr",
-    Description = "Select",
+    Name = "oyuncunun arabasını seç",
+    Description = "seç",
     Default = nil,
     Options = TeleportCarro:AtualizarListaCarros(),
     Callback = function(carroSelecionado)
@@ -3526,19 +3526,19 @@ local Dropdown = Tab5:AddDropdown({
 
 -- Toggle para ver a câmera do carro selecionado
 Tab5:AddToggle({
-    Name = "see camera",
-    Description = "Foca a câmera no carro selecionado",
+    Name = "kamerayı gör",
+    Description = "kamerayı gör",
     Default = false,
     Callback = function(state)
         if state then
             if not _G.SelectedVehicle or _G.SelectedVehicle == "" then
-                TeleportCarro:MostrarNotificacao("Nenhum carro selecionado!")
+                TeleportCarro:MostrarNotificacao("")
                 return
             end
 
             local vehiclesFolder = TeleportCarro.Workspace:FindFirstChild("Vehicles")
             if not vehiclesFolder then
-                TeleportCarro:MostrarNotificacao("Pasta de veículos não encontrada!")
+                TeleportCarro:MostrarNotificacao("")
                 return
             end
 
@@ -3561,13 +3561,13 @@ Tab5:AddToggle({
             -- Ajustar a câmera para o assento do carro, mesmo se ocupado
             TeleportCarro.Camera.CameraSubject = vehicleSeat
             TeleportCarro.Camera.CameraType = Enum.CameraType.Follow
-            TeleportCarro:MostrarNotificacao("Câmera ajustada para o carro " .. _G.SelectedVehicle .. "!")
+            TeleportCarro:MostrarNotificacao(" " .. _G.SelectedVehicle .. "!")
         else
             -- Restaurar a câmera ao estado original
             if TeleportCarro.OriginalCameraSubject then
                 TeleportCarro.Camera.CameraSubject = TeleportCarro.OriginalCameraSubject
                 TeleportCarro.Camera.CameraType = TeleportCarro.OriginalCameraType or Enum.CameraType.Custom
-                TeleportCarro:MostrarNotificacao("Câmera restaurada ao normal!")
+                TeleportCarro:MostrarNotificacao("")
                 TeleportCarro.OriginalCameraSubject = nil
                 TeleportCarro.OriginalCameraType = nil
             end
@@ -3583,11 +3583,11 @@ TeleportCarro.Workspace:WaitForChild("Vehicles").ChildRemoved:Connect(function()
     Dropdown:Set(TeleportCarro:AtualizarListaCarros())
 end)
 
-local Section = Tab5:AddSection({"functions kill e trazer"})
+local Section = Tab5:AddSection({"oldurme fonsiyonları"})
 
 -- Botão para destruir carro selecionado
 Tab5:AddButton({
-    Name = "kill Select Car!",
+    Name = "verilen arabayı oldur",
     Description = "Teleporta o carro selecionado para o void",
     Callback = function()
         if not _G.SelectedVehicle or _G.SelectedVehicle == "" then
@@ -3614,7 +3614,7 @@ Tab5:AddButton({
         end
 
         if vehicleSeat.Occupant then
-            TeleportCarro:MostrarNotificacao("O kill car não foi possível, há alguém sentado no assento do motorista!")
+            TeleportCarro:MostrarNotificacao("")
             return
         end
 
@@ -3622,7 +3622,7 @@ Tab5:AddButton({
         if TeleportCarro.LocalPlayer.Character and TeleportCarro.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
             originalPos = TeleportCarro.LocalPlayer.Character.HumanoidRootPart.Position
         else
-            TeleportCarro:MostrarNotificacao("Personagem do jogador não encontrado!")
+            TeleportCarro:MostrarNotificacao("")
             return
         end
 
@@ -3630,10 +3630,10 @@ Tab5:AddButton({
         local success = TeleportCarro:TeleportToSeat(vehicleSeat, vehicle)
         if success then
             TeleportCarro:TeleportToVoid(vehicle)
-            TeleportCarro:MostrarNotificacao("Carro " .. _G.SelectedVehicle .. " foi teleportado para o void!")
+            TeleportCarro:MostrarNotificacao("Carro " .. _G.SelectedVehicle .. " ")
             TeleportCarro:ExitCarAndReturn(originalPos)
         else
-            TeleportCarro:MostrarNotificacao("Falha ao sentar no carro!")
+            TeleportCarro:MostrarNotificacao("")
         end
         TeleportCarro:ToggleFallDamage(false)
     end
@@ -3641,11 +3641,11 @@ Tab5:AddButton({
 
 -- Botão para trazer carro selecionado
 Tab5:AddButton({
-    Name = "BRING SELECT CAR",
-    Description = "Teleporta o carro selecionado para sua posição",
+    Name = "seçilen arabayı tp et"
+    Description = "",
     Callback = function()
         if not _G.SelectedVehicle or _G.SelectedVehicle == "" then
-            TeleportCarro:MostrarNotificacao("Nenhum carro selecionado!")
+            TeleportCarro:MostrarNotificacao("")
             return
         end
 
@@ -3687,7 +3687,7 @@ Tab5:AddButton({
             TeleportCarro:MostrarNotificacao("Carro " .. _G.SelectedVehicle .. " foi teleportado para você!")
             TeleportCarro:ExitCarAndReturn(originalPos)
         else
-            TeleportCarro:MostrarNotificacao("Falha ao sentar no carro!")
+            TeleportCarro:MostrarNotificacao("F")
         end
         TeleportCarro:ToggleFallDamage(false)
     end
