@@ -1,46 +1,14 @@
-
 local Players = game:GetService("Players")
-
-
 local TextChatService = game:GetService("TextChatService")
-
-
 local RunService = game:GetService("RunService")
-
-
-
-
-
 local localPlayer = Players.LocalPlayer
-
-
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
-
-
-
-
-
 local Window = redzlib:MakeWindow({
-
-
 Title = "sega hub",
-
-
 SubTitle = "by Wx and SnOoBy12345678",
-
-
 SaveFolder = "test | redz lib v5.lua"
-
-
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
-
-
 workspace.FallenPartsDestroyHeight = -math.huge
-
-
-
-
-
 local Window = Libary:MakeWindow({
 
 
