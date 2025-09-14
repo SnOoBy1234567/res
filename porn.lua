@@ -4,44 +4,11 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
 --// Variables
-local TargetName = nil
-local Active = false
+local Active = true -- Always active
+local Target = nil
 
---// GUI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "SitTriggerGUI"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 250, 0, 120)
-frame.Position = UDim2.new(0, 50, 0, 50)
-frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-
-local targetBox = Instance.new("TextBox", frame)
-targetBox.Size = UDim2.new(1, -10, 0, 30)
-targetBox.Position = UDim2.new(0, 5, 0, 5)
-targetBox.PlaceholderText = "Target player"
-targetBox.Text = ""
-targetBox.TextColor3 = Color3.new(1,1,1)
-targetBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
-targetBox.FocusLost:Connect(function()
-    TargetName = targetBox.Text
-end)
-
-local toggleBtn = Instance.new("TextButton", frame)
-toggleBtn.Size = UDim2.new(1, -10, 0, 30)
-toggleBtn.Position = UDim2.new(0, 5, 0, 45)
-toggleBtn.Text = "Toggle Script"
-toggleBtn.TextColor3 = Color3.new(1,1,1)
-toggleBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
-toggleBtn.MouseButton1Click:Connect(function()
-    Active = not Active
-    toggleBtn.BackgroundColor3 = Active and Color3.fromRGB(0,150,0) or Color3.fromRGB(150,0,0)
-end)
-
---// Main function
-local function RunFlingScript()
+--// Main Fling Function
+local function RunFlingScript(targetPlayer)
     local r_time = Players.RespawnTime
     local lp = LocalPlayer
     local bp = lp:WaitForChild("Backpack")
@@ -66,7 +33,7 @@ local function RunFlingScript()
     tool.Parent = bp
 
     chr:FindFirstChildOfClass("Humanoid").Sit = false
-    chr:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0, 0, math.rad(90))
+    chr:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0,0,math.rad(90))
 
     rhand:GetPropertyChangedSignal("Parent"):Connect(function()
         if not rhand.Parent then
@@ -74,8 +41,8 @@ local function RunFlingScript()
             setsimradius(9e6)
 
             local bpObj = Instance.new("BodyPosition")
-            bpObj.Position = t_handle.Position + Vector3.new(0, 20, 0)
-            bpObj.MaxForce = Vector3.new(9e10, 9e10, 9e10)
+            bpObj.Position = t_handle.Position + Vector3.new(0,20,0)
+            bpObj.MaxForce = Vector3.new(9e10,9e10,9e10)
             bpObj.P = 9e4
             bpObj.Parent = t_handle
 
@@ -85,19 +52,15 @@ local function RunFlingScript()
 
             repeat task.wait() until (t_handle.Position - bpObj.Position).Magnitude < 5
 
-            for _, v in next, Players:GetPlayers() do
-                if v ~= lp and v.Character then
-                    local v_hum = v.Character:FindFirstChildOfClass("Humanoid")
-                    if v_hum and not v_hum.Sit then
-                        local v_root = v.Character:FindFirstChild("HumanoidRootPart")
-                        if v_root and v_root.Velocity.Magnitude < 600 then
-                            for i = 1, r_time + 3 do
-                                task.wait()
-                                tool.Handle.RotVelocity = Vector3.new(8000, 8000, -8000)
-                                t_handle.Position = v_root.Position + (v_hum.MoveDirection * 3.8)
-                                bpObj.Position = t_handle.Position
-                            end
-                        end
+            if targetPlayer and targetPlayer.Character then
+                local v_hum = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
+                local v_root = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+                if v_hum and v_root then
+                    for i = 1, r_time + 3 do
+                        task.wait()
+                        tool.Handle.RotVelocity = Vector3.new(8000,8000,-8000)
+                        t_handle.Position = v_root.Position + (v_hum.MoveDirection * 3.8)
+                        bpObj.Position = t_handle.Position
                     end
                 end
             end
@@ -105,17 +68,18 @@ local function RunFlingScript()
     end)
 end
 
---// Loop
+--// Auto-Target Loop
 RunService.RenderStepped:Connect(function()
-    if Active and TargetName then
-        local target = Players:FindFirstChild(TargetName)
-        if target and target.Character then
-            local hum = target.Character:FindFirstChildOfClass("Humanoid")
-            if hum and hum.Sit then
-                Active = false
-                toggleBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
-                print("[Script] Target is sitting → Running fling script!")
-                RunFlingScript()
+    if Active and not Target then
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer and player.Character then
+                local hum = player.Character:FindFirstChildOfClass("Humanoid")
+                if hum and hum.Sit then
+                    Target = player
+                    print("[Executor Script] Target found sitting: "..player.Name)
+                    RunFlingScript(Target)
+                    break
+                end
             end
         end
     end
