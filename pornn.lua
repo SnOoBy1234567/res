@@ -63,6 +63,17 @@ local function executeTargetScript()
         return
     end
     
+    if not selectedPlayerName then
+        warn("No target player selected!")
+        return
+    end
+    
+    local target = Players:FindFirstChild(selectedPlayerName)
+    if not target or not target.Character then
+        warn("Target player not found or no character!")
+        return
+    end
+    
     local rhand = chr:WaitForChild("RightHand") --origin: local rhand = chr.RightHand --changed version for r6 avatars: "local rhand = chr:WaitForChild("Right Arm")"
     
     local function setsimradius(radius)
@@ -100,27 +111,43 @@ local function executeTargetScript()
             
             repeat task.wait() until (t_handle.Position - bp_obj.Position).Magnitude < 5
             
-            -- Sadece target player'ı hedef al
-            if selectedPlayerName then
-                local target = Players:FindFirstChild(selectedPlayerName)
-                if target and target.Character then
-                    local v_chr = target.Character
-                    local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
+            -- Target player'ı sürekli takip et ve yukarı-aşağı hareket et
+            local v_chr = target.Character
+            local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
+            
+            if v_hum and v_hum.Sit then
+                local v_root = v_hum.RootPart
+                
+                if v_root then
+                    print("Target is sitting, starting continuous up-down movement!")
                     
-                    if v_hum and not v_hum.Sit then
-                        local v_root = v_hum.RootPart
+                    -- Sürekli yukarı-aşağı hareket için spawn
+                    task.spawn(function()
+                        local upDown = true
+                        local yOffset = 0
                         
-                        if v_root and v_root.Velocity.Magnitude < 600 then
-                            for i = 1, r_time + 3 do
-                                task.wait()
-                                
-                                tool.Handle.RotVelocity = Vector3.new(8000, 8000, -8000)
-                                
-                                t_handle.Position = v_root.Position + (v_hum.MoveDirection * 3.8)
-                                bp_obj.Position = t_handle.Position
+                        while target and target.Character and v_hum and v_hum.Sit and tool and tool.Parent do
+                            -- Yukarı-aşağı hareket pattern'i
+                            if upDown then
+                                yOffset = yOffset + 2
+                                if yOffset >= 20 then upDown = false end
+                            else
+                                yOffset = yOffset - 2
+                                if yOffset <= -5 then upDown = true end
                             end
+                            
+                            -- Tool'u target'ın etrafında döndür ve yukarı-aşağı hareket ettir
+                            tool.Handle.RotVelocity = Vector3.new(8000, 8000, -8000)
+                            
+                            local targetPos = v_root.Position + Vector3.new(0, yOffset, 0)
+                            t_handle.Position = targetPos + (v_hum.MoveDirection * 2)
+                            bp_obj.Position = t_handle.Position
+                            
+                            task.wait(0.1)
                         end
-                    end
+                        
+                        print("Target stopped sitting or disconnected, stopping movement.")
+                    end)
                 end
             end
         end
