@@ -18,7 +18,7 @@ Corner = { CornerRadius = UDim.new(35, 1) },
 local InfoTab = Window:MakeTab({ Title = "Info", Icon = "rbxassetid://15309138473" })
 
 InfoTab:AddSection({ "Script Info!" })
-InfoTab:AddParagraph({ "Owner/Developer: Wx and Snooby" })
+InfoTab:AddParagraph({ "Developers: Wx and SnOoBy12345678" })
 InfoTab:AddParagraph({"Your executor:" .. identifyexecutor()})
 
 InfoTab:AddSection({ "Rejoin" })
