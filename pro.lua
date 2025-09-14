@@ -5,7 +5,8 @@ local lp = Players.LocalPlayer
 local chr = lp.Character or lp.CharacterAdded:Wait()
 local root = chr:WaitForChild("HumanoidRootPart")
 
-local function getNearbySittingPlayer(radius)
+local function getNearbySittingPlayers(radius)
+    local nearbyPlayers = {}
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= lp and player.Character then
             local hum = player.Character:FindFirstChildOfClass("Humanoid")
@@ -13,85 +14,86 @@ local function getNearbySittingPlayer(radius)
             if hum and hum.Sit and hrp then
                 local distance = (hrp.Position - root.Position).Magnitude
                 if distance <= radius then
-                    return player
+                    table.insert(nearbyPlayers, player)
                 end
             end
         end
     end
+    return nearbyPlayers
 end
 
 -- Ana kontrol
 task.spawn(function()
     while true do
-        local nearby = getNearbySittingPlayer(4) -- 4 stud yakın
-        if nearby then
-            -- 1. Kod: Ipad al
-            local args = {"PickingTools", "Ipad"}
-            ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Too1l"):InvokeServer(unpack(args))
+        local nearbyPlayers = getNearbySittingPlayers(4) -- 4 stud yakın
+        if #nearbyPlayers > 0 then
+            for _, target in ipairs(nearbyPlayers) do
+                -- 1. Kod: Ipad al
+                local args = {"PickingTools", "Ipad"}
+                ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Too1l"):InvokeServer(unpack(args))
 
-            -- 2. Kod: Credits by Pio / Agent666_0
-            local r_time = Players.RespawnTime
-            local mouse = lp:GetMouse()
-            local bp = lp.Backpack
-            local rhand = chr:WaitForChild("RightHand") -- R6 için: "Right Arm"
-            local tool = bp:FindFirstChildOfClass("Tool")
-            if not tool then return end
-            local t_handle = tool.Handle
+                -- 2. Kod: Credits by Pio / Agent666_0
+                local r_time = Players.RespawnTime
+                local mouse = lp:GetMouse()
+                local bp = lp.Backpack
+                local rhand = chr:WaitForChild("RightHand") -- R6 için: "Right Arm"
+                local tool = bp:FindFirstChildOfClass("Tool")
+                if not tool then return end
+                local t_handle = tool.Handle
 
-            tool.Parent = chr
-            tool.Parent = bp
+                tool.Parent = chr
+                tool.Parent = bp
 
-            chr.Humanoid.Sit = false
-            chr.Humanoid.RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0,0,math.rad(90))
+                chr.Humanoid.Sit = false
+                chr.Humanoid.RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(0,0,math.rad(90))
 
-            local function setsimradius(radius)
-                lp.MaximumSimulationRadius = radius
-                lp.SimulationRadius = radius
-            end
+                local function setsimradius(radius)
+                    lp.MaximumSimulationRadius = radius
+                    lp.SimulationRadius = radius
+                end
 
-            rhand:GetPropertyChangedSignal("Parent"):Connect(function()
-                if not rhand.Parent then
-                    workspace.Camera.CameraSubject = t_handle
-                    setsimradius(9e6)
+                rhand:GetPropertyChangedSignal("Parent"):Connect(function()
+                    if not rhand.Parent then
+                        workspace.Camera.CameraSubject = t_handle
+                        setsimradius(9e6)
 
-                    local bp_inst = Instance.new("BodyPosition")
-                    bp_inst.Position = t_handle.Position + Vector3.new(0,20,0)
-                    bp_inst.MaxForce = Vector3.one * 9e10
-                    bp_inst.P = 9e4
-                    bp_inst.Parent = t_handle
+                        local bp_inst = Instance.new("BodyPosition")
+                        bp_inst.Position = t_handle.Position + Vector3.new(0,20,0)
+                        bp_inst.MaxForce = Vector3.one * 9e10
+                        bp_inst.P = 9e4
+                        bp_inst.Parent = t_handle
 
-                    t_handle.CanCollide = false
-                    t_handle.CanQuery = false
-                    tool.Parent = chr
+                        t_handle.CanCollide = false
+                        t_handle.CanQuery = false
+                        tool.Parent = chr
 
-                    repeat task.wait() until (t_handle.Position - bp_inst.Position).Magnitude < 5
+                        repeat task.wait() until (t_handle.Position - bp_inst.Position).Magnitude < 5
 
-                    for i, v in next, Players:GetPlayers() do
-                        local v_chr = v.Character
-                        if i > 1 and v_chr then
-                            local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
-                            if v_hum and not v_hum.Sit then
-                                local v_root = v_hum.RootPart
-                                if v_root and v_root.Velocity.Magnitude < 600 then
-                                    for i = 1, r_time + 3 do
-                                        task.wait()
-                                        t_handle.RotVelocity = Vector3.new(8000,8000,-8000)
-                                        t_handle.Position = v_root.Position + (v_hum.MoveDirection * 3.8)
-                                        bp_inst.Position = t_handle.Position
+                        for i, v in next, Players:GetPlayers() do
+                            local v_chr = v.Character
+                            if i > 1 and v_chr then
+                                local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
+                                if v_hum and not v_hum.Sit then
+                                    local v_root = v_hum.RootPart
+                                    if v_root and v_root.Velocity.Magnitude < 600 then
+                                        for i = 1, r_time + 3 do
+                                            task.wait()
+                                            t_handle.RotVelocity = Vector3.new(8000,8000,-8000)
+                                            t_handle.Position = v_root.Position + (v_hum.MoveDirection * 3.8)
+                                            bp_inst.Position = t_handle.Position
+                                        end
                                     end
                                 end
                             end
                         end
                     end
-                end
-            end)
-
+                end)
+            end
             break -- bir kere tetiklendikten sonra durması için
         end
-        task.wait(0.2)
+        task.wait(0.1)
     end
 end)
-
 
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
