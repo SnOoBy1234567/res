@@ -6,7 +6,7 @@ local localPlayer = Players.LocalPlayer
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
 
 local Window = redzlib:MakeWindow({
-Title = "sega hub SnOoBy12345678",
+Title = "sega hub",
 SubTitle = "by Wx and SnOoBy12345678",
 SaveFolder = "test | redz lib v5.lua"
 })
