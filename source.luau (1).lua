@@ -3,7 +3,7 @@ workspace.FallenPartsDestroyHeight = -math.huge
 
 local Window = Libary:MakeWindow({
     Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
-    SubTitle = "            by: Snooby and Wx",
+    SubTitle = "            by: SnOoBy12345678 and Wx",
     LoadText = "Carregando SEGA Hub",
     Flags = "SEGA_hub_Broookhaven"
 })
