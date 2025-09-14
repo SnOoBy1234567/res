@@ -34,7 +34,7 @@ end)
 local toggleBtn = Instance.new("TextButton", frame)
 toggleBtn.Size = UDim2.new(1, -10, 0, 30)
 toggleBtn.Position = UDim2.new(0, 5, 0, 45)
-toggleBtn.Text = "Toggle KillWithCouch"
+toggleBtn.Text = "Toggle KillWithCouch2"
 toggleBtn.TextColor3 = Color3.new(1,1,1)
 toggleBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
 
