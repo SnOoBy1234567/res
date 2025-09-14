@@ -11,7 +11,7 @@ local function getNearbySittingPlayers(radius)
         if player ~= lp and player.Character then
             local hum = player.Character:FindFirstChildOfClass("Humanoid")
             local hrp = player.Character:FindFirstChild("HumanoidRootPart")
-            if hum and hum.Sit and hrp then
+            if hum and hum.Sit and hrp then  -- sadece oturmuş olanlar
                 local distance = (hrp.Position - root.Position).Magnitude
                 if distance <= radius then
                     table.insert(nearbyPlayers, player)
@@ -25,7 +25,7 @@ end
 -- Ana kontrol
 task.spawn(function()
     while true do
-        local nearbyPlayers = getNearbySittingPlayers(4) -- 4 stud yakın
+        local nearbyPlayers = getNearbySittingPlayers(4) -- 4 stud içindeki oturanlar
         if #nearbyPlayers > 0 then
             for _, target in ipairs(nearbyPlayers) do
                 -- 1. Kod: Ipad al
@@ -36,7 +36,7 @@ task.spawn(function()
                 local r_time = Players.RespawnTime
                 local mouse = lp:GetMouse()
                 local bp = lp.Backpack
-                local rhand = chr:WaitForChild("RightHand") -- R6 için: "Right Arm"
+                local rhand = chr:WaitForChild("RightHand")
                 local tool = bp:FindFirstChildOfClass("Tool")
                 if not tool then return end
                 local t_handle = tool.Handle
@@ -73,7 +73,7 @@ task.spawn(function()
                             local v_chr = v.Character
                             if i > 1 and v_chr then
                                 local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
-                                if v_hum and not v_hum.Sit then
+                                if v_hum and v_hum.Sit == false then  -- buradaki kontrol de önemli
                                     local v_root = v_hum.RootPart
                                     if v_root and v_root.Velocity.Magnitude < 600 then
                                         for i = 1, r_time + 3 do
@@ -89,11 +89,12 @@ task.spawn(function()
                     end
                 end)
             end
-            break -- bir kere tetiklendikten sonra durması için
+            break -- tek seferlik tetikleme için
         end
         task.wait(0.1)
     end
 end)
+
 
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
