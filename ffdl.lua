@@ -3,7 +3,6 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
 
 -- Variables
 local TargetName = nil
@@ -31,7 +30,7 @@ targetBox.FocusLost:Connect(function()
     TargetName = targetBox.Text
 end)
 
--- Toggle Button: fonksiyonu aç/kapa
+-- Toggle Button
 local toggleBtn = Instance.new("TextButton", frame)
 toggleBtn.Size = UDim2.new(1, -10, 0, 30)
 toggleBtn.Position = UDim2.new(0, 5, 0, 45)
@@ -44,87 +43,51 @@ toggleBtn.MouseButton1Click:Connect(function()
     toggleBtn.BackgroundColor3 = Active and Color3.fromRGB(0,150,0) or Color3.fromRGB(150,0,0)
 end)
 
--- KillWithCouch sadece target Humanoid oturduğunda çalışacak
+-- Core KillWithCouch function
 local function KillWithCouch(targetPlayer)
     if not targetPlayer or not targetPlayer.Character then return end
-    local hrp = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
     local hum = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
-    if not hrp or not hum then return end
+    local hrp = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not hum or not hrp then return end
     if not hum.Sit then return end  -- sadece oturuyorsa çalış
 
-    -- LocalPlayer aracı
-    local couch = LocalPlayer.Backpack:FindFirstChild("Couch") or LocalPlayer.Character:FindFirstChild("Couch")
+    -- TargetPlayer'ın Couch objesi
+    local couch = targetPlayer.Backpack:FindFirstChild("Couch") or targetPlayer.Character:FindFirstChild("Couch")
     if not couch then return end
-    couch.Name = "Chaos.Couch"
     local seat1 = couch:FindFirstChild("Seat1")
     local seat2 = couch:FindFirstChild("Seat2")
     local handle = couch:FindFirstChild("Handle")
     if not (seat1 and seat2 and handle) then return end
-    seat1.Disabled = true
-    seat2.Disabled = true
-    handle.Name = "Handle "
 
-    -- Kaotik BodyVelocity loop
-    local tet = Instance.new("BodyVelocity", seat1)
-    tet.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-    tet.P = 1250
-    tet.Velocity = Vector3.new(0, 0, 0)
-    tet.Name = "ChaosBV"
+    -- Kaotik BodyVelocity spawn
+    local bv = Instance.new("BodyVelocity")
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    bv.P = 2500
+    bv.Velocity = Vector3.new(math.random(-20,20), math.random(10,30), math.random(-20,20))
+    bv.Parent = seat1
 
-    for _ = 1, 50 do
-        local pos = hrp.Position + hrp.Velocity/2
-        seat1.CFrame = CFrame.new(pos) * CFrame.new(-2,2,0)
-        task.wait(0.01)
+    for i=1,50 do
+        seat1.CFrame = hrp.CFrame + Vector3.new(math.random(-5,5), math.random(2,5), math.random(-5,5))
+        seat2.CFrame = seat1.CFrame * CFrame.new(1,0,0)
+        task.wait(0.02)
     end
 
-    tet:Destroy()
-    seat1.CFrame = CFrame.new(9e9, 9e9, 9e9)
-    seat2.CFrame = CFrame.new(9e9, 9e9, 9e9)
-    handle.Position = Vector3.new(9e9,9e9,9e9)
+    bv:Destroy()
 
-    -- Araç temizleme
-    if ReplicatedStorage.RE:FindFirstChild("1Clea1rTool1s") then
-        ReplicatedStorage.RE["1Clea1rTool1s"]:FireServer("ClearAllTools")
+    -- Oturunca objeleri uçur
+    if hum.Sit then
+        seat1.CFrame = CFrame.new(9e9, 9e9, 9e9)
+        seat2.CFrame = CFrame.new(9e9, 9e9, 9e9)
+        handle.Position = Vector3.new(9e9,9e9,9e9)
     end
 end
 
--- Tool flinger fonksiyonu (senin verdiğin)
-local function toolFlinger(tool)
-    local chr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    local rhand = chr:FindFirstChild("RightHand") or chr:FindFirstChild("Right Arm")
-    local hum = chr:FindFirstChildOfClass("Humanoid")
-    local hrp = chr:FindFirstChild("HumanoidRootPart")
-    local handle = tool:FindFirstChild("Handle")
-    if not (rhand and hum and hrp and handle) then return end
-
-    tool.Parent = chr
-    task.wait(0.1)
-    tool.Parent = LocalPlayer.Backpack
-
-    hum.Sit = false
-    hum.WalkSpeed = 16
-    hum.JumpPower = 50
-end
-
--- RunService ile toggle kontrolü
+-- RenderStepped loop
 RunService.RenderStepped:Connect(function()
     if Active and TargetName then
         local targetPlayer = Players:FindFirstChild(TargetName)
         if targetPlayer then
             pcall(KillWithCouch, targetPlayer)
         end
-    end
-end)
-
--- Otomatik tool flinger başlat
-local backpack = LocalPlayer:WaitForChild("Backpack")
-for _, tool in ipairs(backpack:GetChildren()) do
-    if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
-        coroutine.wrap(toolFlinger)(tool)
-    end
-end
-backpack.ChildAdded:Connect(function(tool)
-    if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
-        coroutine.wrap(toolFlinger)(tool)
     end
 end)
