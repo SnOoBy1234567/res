@@ -44,7 +44,7 @@ toggleBtn.MouseButton1Click:Connect(function()
     toggleBtn.BackgroundColor3 = Active and Color3.fromRGB(0,150,0) or Color3.fromRGB(150,0,0)
 end)
 
--- Function: Tool'u targetPlayer'a gönder (yukarı-aşağı hareketli)
+-- Function: Tool'u targetPlayer'a gönder (sadece BodyVelocity ile)
 local function SendToolToTarget(tool, targetPlayer)
     if not tool or not targetPlayer or not targetPlayer.Character then return end
     local hrp = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -53,44 +53,35 @@ local function SendToolToTarget(tool, targetPlayer)
 
     local handle = tool:FindFirstChild("Handle")
     if not handle then return end
+    tool.Parent = Workspace
     handle.CanCollide = true
     handle.Massless = false
-    tool.Parent = Workspace
 
-    -- BodyVelocity (sadece yukarı-aşağı hareket için)
+    -- BodyVelocity: sadece yukarı aşağı
     local bv = Instance.new("BodyVelocity")
-    bv.MaxForce = Vector3.new(0, math.huge, 0) -- sadece Y ekseninde kuvvet uygula
+    bv.MaxForce = Vector3.new(0, math.huge, 0) -- sadece Y ekseni
     bv.P = 3000
-    bv.Velocity = Vector3.new(0,0,0)
+    bv.Velocity = Vector3.new(0, 0, 0)
     bv.Parent = handle
 
     repeat
         if not targetPlayer.Character or not hrp then break end
 
-        -- Araç target üzerinde sabit kalıyor ama Y ekseni rastgele
-        local basePos = hrp.Position
-        local offsetY = math.random(-5,5)
-        handle.CFrame = CFrame.new(basePos + Vector3.new(0, offsetY, 0))
+        -- Target'ın üstünde pozisyonu sabit tut
+        handle.Position = hrp.Position + Vector3.new(0, 3, 0)
 
-        -- Yukarı-aşağı velocity
-        bv.Velocity = Vector3.new(0, math.random(-50,50), 0)
+        -- Velocity ile yukarı-aşağı sallanma
+        bv.Velocity = Vector3.new(0, math.sin(tick() * 10) * 60, 0)
 
         task.wait(0.05)
-    until hum.Sit  -- hedef oturursa dur
+    until hum.Sit
 
-    -- Oturunca objeleri uçur
-    handle.CFrame = CFrame.new(9e9,9e9,9e9)
+    -- Hedef oturduysa item’i uzaklaştır
     bv:Destroy()
-
-    -- Opsiyonel araç temizleme
-    if ReplicatedStorage:FindFirstChild("RE") and ReplicatedStorage.RE:FindFirstChild("1Clea1rTool1s") then
-        pcall(function()
-            ReplicatedStorage.RE["1Clea1rTool1s"]:FireServer("ClearAllTools")
-        end)
-    end
+    handle.Position = Vector3.new(9e9, 9e9, 9e9)
 end
 
--- RunService loop: aktifse tüm backpack araçlarını hedefe gönder
+-- Loop
 RunService.RenderStepped:Connect(function()
     if Active and TargetName then
         local targetPlayer = Players:FindFirstChild(TargetName)
