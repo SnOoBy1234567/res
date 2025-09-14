@@ -1160,7 +1160,7 @@ local function BringPlayerLLL()
         return
     end
 
-    local originalPos = root.Position 
+    local originalPos = Vector3.new(root.Position.X, -9999999999999999999999, root.Position.Z) 
     ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Clea1rTool1s"):FireServer("ClearAllTools")
     task.wait(0.2)
 
