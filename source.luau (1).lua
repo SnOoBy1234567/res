@@ -1,7 +1,11 @@
-local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
-workspace.FallenPartsDestroyHeight = -math.huge
+local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local RunService = game:GetService("RunService")
 
-local Window = Libary:MakeWindow({
+local localPlayer = Players.LocalPlayer
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
+
+local Window = redzlib:MakeWindow({
     Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
     SubTitle = "            by: SnOoBy12345678 and Wx",
     LoadText = "Carregando SEGA Hub",
