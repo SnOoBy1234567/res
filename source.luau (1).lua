@@ -1,28 +1,11 @@
-local Players = game:GetService("Players")
-local TextChatService = game:GetService("TextChatService")
-local RunService = game:GetService("RunService")
-local localPlayer = Players.LocalPlayer
-local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
-local Window = redzlib:MakeWindow({
-Title = "sega hub",
-SubTitle = "by Wx and SnOoBy12345678",
-SaveFolder = "test | redz lib v5.lua"
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
 workspace.FallenPartsDestroyHeight = -math.huge
+
 local Window = Libary:MakeWindow({
-
-
     Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
-
-
     SubTitle = "            by: Snooby and Wx",
-
-
     LoadText = "Carregando SEGA Hub",
-
-
     Flags = "SEGA_hub_Broookhaven"
-
 })
 Window:AddMinimizeButton({
     Button = { Image = "rbxassetid://0", BackgroundTransparency = 0 },
@@ -3701,16 +3684,6 @@ Tab5:AddButton({
         TeleportCarro:ToggleFallDamage(false)
     end
 })
-
-
-
-local Tab1 = Window:MakeTab({"Um", "cherry"})
-
-Window:SelectTab(Tab1)
-
-local Section = Tab1:AddSection({"Section"})
-
-local Paragraph = Tab1:AddParagraph({"diyer yerde", "By SnOoBy12345678"})
 
 local RunService = game:GetService("RunService")
 local VirtualUser = game:GetService("VirtualUser")
