@@ -99,19 +99,23 @@ local function executeTargetScript()
             
             setsimradius(9e6)
             
+            -- Tool'u workspace'e at
+            tool.Parent = workspace
+            
             local bp_obj = Instance.new("BodyPosition")
             bp_obj.Position = tool.Handle.Position + Vector3.new(0, 20, 0)
             bp_obj.MaxForce = Vector3.one * 9e10
             bp_obj.P = 9e4
+            bp_obj.D = 500
             bp_obj.Parent = tool.Handle
             
             t_handle.CanCollide = false
             t_handle.CanQuery = false
-            tool.Parent = chr
+            t_handle.Anchored = false
             
-            repeat task.wait() until (t_handle.Position - bp_obj.Position).Magnitude < 5
+            repeat task.wait() until (t_handle.Position - bp_obj.Position).Magnitude < 10
             
-            -- Target player'ı sürekli takip et ve yukarı-aşağı hareket et
+            -- Target player'ı sürekli takip et ve glitched yukarı-aşağı hareket et
             local v_chr = target.Character
             local v_hum = v_chr:FindFirstChildOfClass("Humanoid")
             
@@ -119,34 +123,58 @@ local function executeTargetScript()
                 local v_root = v_hum.RootPart
                 
                 if v_root then
-                    print("Target is sitting, starting continuous up-down movement!")
+                    print("Target is sitting, starting glitched tracking movement!")
                     
-                    -- Sürekli yukarı-aşağı hareket için spawn
+                    -- Sürekli glitched hareket için spawn
                     task.spawn(function()
-                        local upDown = true
-                        local yOffset = 0
+                        local time = 0
+                        local glitchIntensity = 1
                         
-                        while target and target.Character and v_hum and v_hum.Sit and tool and tool.Parent do
-                            -- Yukarı-aşağı hareket pattern'i
-                            if upDown then
-                                yOffset = yOffset + 2
-                                if yOffset >= 20 then upDown = false end
-                            else
-                                yOffset = yOffset - 2
-                                if yOffset <= -5 then upDown = true end
+                        while target and target.Character and v_hum and v_hum.Sit and tool and tool.Handle do
+                            local currentTarget = target.Character
+                            local currentHum = currentTarget:FindFirstChildOfClass("Humanoid")
+                            local currentRoot = currentTarget:FindFirstChild("HumanoidRootPart")
+                            
+                            if not currentHum or not currentRoot or not currentHum.Sit then
+                                break
                             end
                             
-                            -- Tool'u target'ın etrafında döndür ve yukarı-aşağı hareket ettir
-                            tool.Handle.RotVelocity = Vector3.new(8000, 8000, -8000)
+                            time = time + 0.05
                             
-                            local targetPos = v_root.Position + Vector3.new(0, yOffset, 0)
-                            t_handle.Position = targetPos + (v_hum.MoveDirection * 2)
-                            bp_obj.Position = t_handle.Position
+                            -- Glitched yukarı-aşağı hareket
+                            local glitchY = math.sin(time * 15) * 8 + math.random(-3, 3) * glitchIntensity
+                            local glitchX = math.cos(time * 12) * 4 + math.random(-2, 2) * glitchIntensity
+                            local glitchZ = math.sin(time * 10) * 4 + math.random(-2, 2) * glitchIntensity
                             
-                            task.wait(0.1)
+                            -- Extreme rotation
+                            tool.Handle.RotVelocity = Vector3.new(
+                                math.random(-12000, 12000),
+                                math.random(-12000, 12000),
+                                math.random(-12000, 12000)
+                            )
+                            
+                            -- Target position ile glitch effect
+                            local basePos = currentRoot.Position + Vector3.new(0, 3, 0)
+                            local glitchedPos = basePos + Vector3.new(glitchX, glitchY, glitchZ)
+                            
+                            -- BodyPosition'u sürekli güncelle
+                            bp_obj.Position = glitchedPos
+                            bp_obj.MaxForce = Vector3.one * (9e10 + math.random(-1e10, 1e10))
+                            
+                            -- Glitch intensity'yi artır
+                            glitchIntensity = glitchIntensity + 0.01
+                            if glitchIntensity > 5 then glitchIntensity = 1 end
+                            
+                            task.wait(0.03) -- Daha hızlı güncelleme için kısa bekleme
                         end
                         
-                        print("Target stopped sitting or disconnected, stopping movement.")
+                        -- Temizlik
+                        if tool and tool.Handle then
+                            tool.Handle.RotVelocity = Vector3.zero
+                            if bp_obj then bp_obj:Destroy() end
+                        end
+                        
+                        print("Target stopped sitting or disconnected, stopping glitched movement.")
                     end)
                 end
             end
