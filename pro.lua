@@ -1059,7 +1059,8 @@ local function KillPlayerCouch()
         return
     end
 
-    local originalPos = root.Position 
+    local originalPos = Vector3.new(root.Position.X, -9999999999999999999999, root.Position.Z)
+
     local sitPos = Vector3.new(145.51, -350.09, 21.58)
 
     ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Clea1rTool1s"):FireServer("ClearAllTools")
