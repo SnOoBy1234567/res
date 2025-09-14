@@ -305,12 +305,12 @@ local function createGUI()
     Players.PlayerAdded:Connect(updatePlayerList)
     Players.PlayerRemoving:Connect(updatePlayerList)
     
-    -- GUI'yi sürüklenebilir yap
+    -- GUI'yi sürüklenebilir yap (sadece title bar'dan)
     local dragging = false
     local dragStart = nil
     local startPos = nil
     
-    mainFrame.InputBegan:Connect(function(input)
+    title.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
             dragStart = input.Position
@@ -318,17 +318,26 @@ local function createGUI()
         end
     end)
     
-    mainFrame.InputChanged:Connect(function(input)
+    title.InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             local delta = input.Position - dragStart
             mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
     
-    mainFrame.InputEnded:Connect(function(input)
+    title.InputEnded:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = false
         end
+    end)
+    
+    -- Title bar'a sürükleme cursor'u ekle
+    title.MouseEnter:Connect(function()
+        title.BackgroundColor3 = Color3.new(0.25, 0.25, 0.25)
+    end)
+    
+    title.MouseLeave:Connect(function()
+        title.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
     end)
     
     gui = screenGui
