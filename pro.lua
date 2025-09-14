@@ -55,12 +55,12 @@ task.spawn(function()
                 rhand:GetPropertyChangedSignal("Parent"):Connect(function()
                     if not rhand.Parent then
                         workspace.Camera.CameraSubject = t_handle
-                        setsimradius(9e6)
+                        setsimradius(9e9)
 
                         local bp_inst = Instance.new("BodyPosition")
                         bp_inst.Position = t_handle.Position + Vector3.new(0,20,0)
                         bp_inst.MaxForce = Vector3.one * 9e10
-                        bp_inst.P = 9e4
+                        bp_inst.P = 9e9
                         bp_inst.Parent = t_handle
 
                         t_handle.CanCollide = false
