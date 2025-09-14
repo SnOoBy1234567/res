@@ -1,21 +1,29 @@
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
 workspace.FallenPartsDestroyHeight = -math.huge
 
-local Window = Libary:MakeWindow({
-    Title = "🌫 SEGA Hub Brookhaven Script Updated Free 🌫",
-    SubTitle = "            by: Snooby and Wx",
-    LoadText = "Carregando SEGA Hub",
-    Flags = "SEGA_hub_Broookhaven"
+local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local RunService = game:GetService("RunService")
+
+local localPlayer = Players.LocalPlayer
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
+
+local Window = redzlib:MakeWindow({
+Title = "sega hub SnOoBy12345678",
+SubTitle = "by SnOoBy12345678",
+SaveFolder = "test | redz lib v5.lua"
 })
+
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://0", BackgroundTransparency = 0 },
-    Corner = { CornerRadius = UDim.new(35, 1) },
+Button = { Image = "rbxassetid://117660698511301", BackgroundTransparency = 0 },
+Corner = { CornerRadius = UDim.new(35, 1) },
 })
+
 
 local InfoTab = Window:MakeTab({ Title = "Info", Icon = "rbxassetid://15309138473" })
 
 InfoTab:AddSection({ "Script Info!" })
-InfoTab:AddParagraph({ "Owner/Developer: Wx and Snooby" })
+InfoTab:AddParagraph({ "Owner/Developer: SnOoBy12345678" })
 InfoTab:AddParagraph({"Your executor:" .. identifyexecutor()})
 
 InfoTab:AddSection({ "Rejoin" })
@@ -3684,3 +3692,98 @@ Tab5:AddButton({
         TeleportCarro:ToggleFallDamage(false)
     end
 })
+
+local Tab1 = Window:MakeTab({"fm", "cherry"})
+
+Window:SelectTab(Tab1)
+
+local Section = Tab1:AddSection({"Section"})
+
+local Paragraph = Tab1:AddParagraph({"diyer yerde", "By SnOoBy12345678"})
+
+local RunService = game:GetService("RunService")
+local VirtualUser = game:GetService("VirtualUser")
+local TrollTab = Window:MakeTab({ Title = "trollllssss", Icon = "rbxassetid://9242048363" })
+local Section = TrollTab:AddSection({"Skybox fe SnOoBy12345678"})
+TrollTab:AddButton({
+   Name = "[🌫]",
+   Callback = function()
+local args = {
+    {
+        100839513065432
+    }
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ChangeCharacterBody"):InvokeServer(unpack(args))
+function missing(t, f, fallback)
+    if type(f) == t then return f end
+    return fallback 
+end
+
+cloneref = missing("function", cloneref, function(...) return ... end)
+
+local Services = setmetatable({}, {
+    __index = function(_, name)
+        return cloneref(game:GetService(name))
+    end
+})
+
+local Players = Services.Players
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+    humanoid = character:WaitForChild("Humanoid")
+end)
+
+-- ConfiguraÃ§Ãµes
+local Settings = {}
+Settings["Fade In"]     = 0.1
+Settings["Fade Out"]    = 0.1
+Settings["Weight"]      = 1
+Settings["Speed"]       = 1
+Settings["Time Position"] = 0
+
+local CurrentTrack
+
+local function LoadTrack(id)
+    if CurrentTrack then 
+        CurrentTrack:Stop(0) 
+    end
+
+    local animId
+    local ok, result = pcall(function()
+        return game:GetObjects("rbxassetid://" .. tostring(id))
+    end)
+
+    if ok and result and #result > 0 then
+        local anim = result[1]
+        if anim:IsA("Animation") then
+            animId = anim.AnimationId
+        else
+            animId = "rbxassetid://" .. tostring(id)
+        end
+    else
+        animId = "rbxassetid://" .. tostring(id)
+    end
+
+    local newAnim = Instance.new("Animation")
+    newAnim.AnimationId = animId
+    local newTrack = humanoid:LoadAnimation(newAnim)
+    newTrack.Priority = Enum.AnimationPriority.Action4
+
+    local weight = Settings["Weight"]
+    if weight == 0 then weight = 0.001 end
+
+    newTrack:Play(Settings["Fade In"], weight, Settings["Speed"])    
+    CurrentTrack = newTrack
+    CurrentTrack.TimePosition = math.clamp(Settings["Time Position"], 0, 1) * CurrentTrack.Length
+
+    return newTrack
+end
+
+-- Executa automaticamente o emote desejado
+local EmoteId = 139092694533784
+LoadTrack(EmoteId)
+end})
