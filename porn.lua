@@ -1,5 +1,5 @@
 -- Credits by Pio "Discord User id: 311397526399877122"
--- and edited by Agent666_0 (with ai helper)
+-- Edited by Agent666_0 (with ai helper)
 
 -- Services
 local Players = game:GetService("Players")
@@ -10,8 +10,7 @@ local Backpack = LocalPlayer:WaitForChild("Backpack")
 -- Vars
 local TargetName = nil
 local Active = false
-local Tool = nil
-local BV = nil
+local Tool, Handle, BP, BV
 local flingRunning = false
 
 -- GUI
@@ -40,7 +39,7 @@ end)
 local toggleBtn = Instance.new("TextButton", frame)
 toggleBtn.Size = UDim2.new(1, -10, 0, 30)
 toggleBtn.Position = UDim2.new(0, 5, 0, 45)
-toggleBtn.Text = "Toggle UpDown/Fling"
+toggleBtn.Text = "Toggle KillWithTool"
 toggleBtn.TextColor3 = Color3.new(1,1,1)
 toggleBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
 
@@ -51,17 +50,24 @@ toggleBtn.MouseButton1Click:Connect(function()
     if Active then
         Tool = Backpack:FindFirstChildOfClass("Tool")
         if Tool then
-            local handle = Tool:FindFirstChild("Handle")
-            if handle then
+            Handle = Tool:FindFirstChild("Handle")
+            if Handle then
+                -- BodyPosition (takip için)
+                BP = Instance.new("BodyPosition")
+                BP.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                BP.P = 50000
+                BP.D = 2000
+                BP.Parent = Handle
+
+                -- BodyVelocity (yukarı-aşağı titreme için)
                 BV = Instance.new("BodyVelocity")
-                BV.Name = "UpDownBV"
                 BV.MaxForce = Vector3.new(0, math.huge, 0)
                 BV.P = 3000
-                BV.Velocity = Vector3.new(0,0,0)
-                BV.Parent = handle
+                BV.Parent = Handle
             end
         end
     else
+        if BP then BP:Destroy() BP = nil end
         if BV then BV:Destroy() BV = nil end
         if Tool and Tool.Parent ~= Backpack then
             Tool.Parent = Backpack
@@ -103,7 +109,7 @@ local function runFling()
             local bp = Instance.new("BodyPosition")
             bp.Position = t_handle.Position + Vector3.new(0,20,0)
             bp.MaxForce = Vector3.one * 9e10
-            bp.P = 9e4
+            bp.P = 9e9
             bp.Parent = t_handle
 
             t_handle.CanCollide = false
@@ -130,24 +136,28 @@ local function runFling()
     end)
 end
 
--- Loop
-RunService.RenderStepped:Connect(function()
-    if Active and Tool and BV then
-        local handle = Tool:FindFirstChild("Handle")
-        if handle then
-            local target = TargetName and Players:FindFirstChild(TargetName)
-            local hum = target and target.Character and target.Character:FindFirstChildOfClass("Humanoid")
+-- Main loop
+RunService.Heartbeat:Connect(function()
+    if Active and Tool and Handle and BP and BV then
+        local target = TargetName and Players:FindFirstChild(TargetName)
+        if not target then return end
+        local hum = target.Character and target.Character:FindFirstChildOfClass("Humanoid")
+        local hrp = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
+        if not hum or not hrp then return end
 
-            if hum and hum.Sit then
-                -- target oturduğunda
-                BV.Velocity = Vector3.new(0,0,0)
-                if Tool.Parent ~= Backpack then Tool.Parent = Backpack end
-                runFling()
-            else
-                -- toggle açıkken yukarı-aşağı
-                BV.Velocity = Vector3.new(0, math.sin(tick()*6)*70, 0)
-                Tool.Parent = Workspace
+        if hum.Sit then
+            -- Sit olduysa: temizle + backpack + fling
+            if BP then BP:Destroy() BP = nil end
+            if BV then BV:Destroy() BV = nil end
+            if Tool and Tool.Parent ~= Backpack then
+                Tool.Parent = Backpack
             end
+            runFling()
+        else
+            -- Takip + titreme
+            BP.Position = hrp.Position + Vector3.new(0,2,0)
+            BV.Velocity = Vector3.new(0, math.sin(tick()*40)*150, 0) -- çok hızlı up/down
+            Tool.Parent = workspace
         end
     end
 end)
