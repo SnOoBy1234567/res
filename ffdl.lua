@@ -47,55 +47,41 @@ toggleBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Bugged KillWithCouch Fonksiyonu
+-- Bugged KillWithCouch Fonksiyonu (sadece hedefin aracıyla)
 local function KillWithCouch()
     if not TargetName then return end
     local targetPlayer = Players:FindFirstChild(TargetName)
-    if not targetPlayer or not targetPlayer.Character or not targetPlayer.Character:FindFirstChild("HumanoidRootPart") then return end
+    if not targetPlayer or not targetPlayer.Character then return end
 
-    -- Sofa ve parçaları bul
-    local couch = LocalPlayer.Backpack:FindFirstChild("Couch") or LocalPlayer.Character:FindFirstChild("Couch")
+    -- TargetPlayer'ın Backpack veya Character içindeki Couch objesini bul
+    local couch = targetPlayer.Backpack:FindFirstChild("Couch") or targetPlayer.Character:FindFirstChild("Couch")
     if not couch then return end
     local seat1 = couch:FindFirstChild("Seat1")
     local seat2 = couch:FindFirstChild("Seat2")
     local handle = couch:FindFirstChild("Handle")
     if not (seat1 and seat2 and handle) then return end
 
-    -- Kaotik loop
-    for _ = 1, 10 do  -- kısa demo loop
-        local tRoot = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-        if tRoot then
-            for i = 1, 50 do
-                local pos = tRoot.Position + tRoot.Velocity * 0.5
-                seat1.CFrame = CFrame.new(pos + Vector3.new(math.random(-3,3), math.random(-3,3), math.random(-3,3)))
-                seat2.CFrame = seat1.CFrame * CFrame.new(1,0,0)
+    -- Kaotik hareketler, sadece hedef oyuncunun aracıyla
+    for i = 1, 50 do
+        seat1.CFrame = CFrame.new(seat1.Position + Vector3.new(math.random(-5,5), math.random(-5,5), math.random(-5,5)))
+        seat2.CFrame = seat1.CFrame * CFrame.new(1,0,0)
 
-                -- Her frame'de yeni BodyVelocity spawn
-                local bv = Instance.new("BodyVelocity", seat1)
-                bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-                bv.P = 2500
-                bv.Velocity = Vector3.new(math.random(-10,10), math.random(-10,10), math.random(-10,10))
-                bv.Name = "BV_"..tick()
-                task.wait(0.01)
-            end
-        end
-
-        -- Sofa rastgele backpack ve character arasında
-        if math.random() > 0.5 then
-            couch.Parent = LocalPlayer.Backpack
-        else
-            couch.Parent = LocalPlayer.Character
-        end
+        local bv = Instance.new("BodyVelocity", seat1)
+        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bv.P = 2500
+        bv.Velocity = Vector3.new(math.random(-10,10), math.random(-10,10), math.random(-10,10))
+        bv.Name = "BV_"..tick()
+        task.wait(0.01)
     end
 
-    -- Oturunca objeleri devasa uzaklığa at
+    -- Hedef oturduğunda objeleri devasa uzaklığa at
     if targetPlayer.Character:FindFirstChild("Humanoid") and targetPlayer.Character.Humanoid.Sit then
         seat1.CFrame = CFrame.new(9e9, 9e9, 9e9)
         seat2.CFrame = CFrame.new(9e9, 9e9, 9e9)
         handle.Position = Vector3.new(9e9, 9e9, 9e9)
     end
 
-    -- Araçları temizle
+    -- Opsiyonel: araçları temizle (target oyuncuya bağlı olarak)
     if ReplicatedStorage.RE:FindFirstChild("1Clea1rTool1s") then
         ReplicatedStorage.RE["1Clea1rTool1s"]:FireServer("ClearAllTools")
     end
