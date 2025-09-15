@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SnOoBy1234567/res/refs/heads/main/pro.lua"))()
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
 workspace.FallenPartsDestroyHeight = -math.huge
