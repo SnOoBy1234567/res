@@ -599,11 +599,10 @@ TrollTab:AddToggle({
     Description = "op",
     Default = false,
     Callback = function(Value)
-			
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ALLAHSIZV0C0N456793/Hj/refs/heads/main/R6.txt"))()
-
-
+    end
 })
+
 
 
 local Tab2 = Window:MakeTab({"LocalScripts Updated", "home"})
