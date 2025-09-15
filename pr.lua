@@ -1780,10 +1780,8 @@ function RunCustomAnimation(Char)
 end
 
 RunCustomAnimation(plr.Character)
-
-
- })
-
+    end
+})
 
 
 local Troll = Window:MakeTab({ Title = "Admin Updated Troll", Icon = "home" })
