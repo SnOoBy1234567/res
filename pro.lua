@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 local lp = game.Players.LocalPlayer
 local chr = lp.Character or lp.CharacterAdded:Wait()
 local humanoid = chr:WaitForChild("Humanoid")
@@ -143,15 +136,6 @@ connection = RunService.Heartbeat:Connect(function()
         executeMainScript()
     end
 end)
-
-
-
-
-
-
-
-
-
 
 
 local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wx-sources/incomunLibrary/refs/heads/main/RedzV5.Lua%20(2).txt"))()
